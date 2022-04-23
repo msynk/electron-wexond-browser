@@ -257,7 +257,7 @@ export class ViewManager extends EventEmitter {
   }
 
   public emitZoomUpdate(showDialog = true) {
-    Application.instance.dialogs
+    Application.getInstance().dialogs
       .getDynamic('zoom')
       ?.browserView?.webContents?.send(
         'zoom-factor-updated',

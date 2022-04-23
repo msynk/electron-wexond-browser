@@ -32,7 +32,7 @@ function getIcon(
   isFolder: boolean,
 ): NativeImage | string {
   if (favicon) {
-    let dataURL = Application.instance.storage.favicons.get(favicon);
+    let dataURL = Application.getInstance().storage.favicons.get(favicon);
     if (dataURL) {
       // some favicon data urls have a corrupted base 64 file type descriptor
       // prefixed with data:png;base64, instead of data:image/png;base64,
@@ -49,7 +49,7 @@ function getIcon(
     }
   }
 
-  if (Application.instance.settings.object.theme === 'wexond-dark') {
+  if (Application.getInstance().settings.object.theme === 'wexond-dark') {
     if (isFolder) {
       return getPath('folder_light');
     } else {
@@ -122,7 +122,7 @@ export function createMenu(appWindow: AppWindow, item: IBookmark) {
     {
       label: 'Delete',
       click: () => {
-        Application.instance.storage.removeBookmark(item._id);
+        Application.getInstance().storage.removeBookmark(item._id);
       },
     },
   ];

@@ -6,7 +6,7 @@ export const showTabGroupDialog = (
   browserWindow: BrowserWindow,
   tabGroup: any,
 ) => {
-  const dialog = Application.instance.dialogs.show({
+  const dialog = Application.getInstance().dialogs.show({
     name: 'tabgroup',
     browserWindow,
     getBounds: () => ({

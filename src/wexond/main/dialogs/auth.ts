@@ -8,14 +8,14 @@ export const requestAuth = (
   tabId: number,
 ): Promise<{ username: string; password: string }> => {
   return new Promise((resolve, reject) => {
-    const appWindow = Application.instance.windows.fromBrowserWindow(
+    const appWindow = Application.getInstance().windows.fromBrowserWindow(
       browserWindow,
     );
 
     const tab = appWindow.viewManager.views.get(tabId);
     tab.requestedAuth = { url };
 
-    const dialog = Application.instance.dialogs.show({
+    const dialog = Application.getInstance().dialogs.show({
       name: 'auth',
       browserWindow,
       getBounds: () => {

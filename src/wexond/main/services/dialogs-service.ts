@@ -103,7 +103,7 @@ export class DialogsService {
       browserView = this.createBrowserView();
     }
 
-    const appWindow = Application.instance.windows.fromBrowserWindow(
+    const appWindow = Application.getInstance().windows.fromBrowserWindow(
       browserWindow,
     );
 

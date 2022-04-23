@@ -15,7 +15,14 @@ import { NetworkServiceHandler } from './network/network-service-handler';
 import { ExtensionServiceHandler } from './extension-service-handler';
 
 export class Application {
-  public static instance = new Application();
+  private static instance: Application;
+  public static getInstance = () => {
+    if (!this.instance) {
+      this.instance = new Application();
+    }
+    return this.instance;
+  }
+
 
   public sessions: SessionsService;
 
@@ -28,12 +35,12 @@ export class Application {
   public dialogs = new DialogsService();
 
   public start() {
-    const gotTheLock = true; // app.requestSingleInstanceLock();
+    // const gotTheLock = app.requestSingleInstanceLock();
 
-    if (!gotTheLock) {
-      app.quit();
-      return;
-    } else {
+    // if (!gotTheLock) {
+    //   app.quit();
+    //   return;
+    // } else {
       // app.on('second-instance', async (e, argv) => {
       //   const path = argv[argv.length - 1];
 
@@ -62,7 +69,7 @@ export class Application {
 
       //   this.windows.open();
       // });
-    }
+    // }
 
     app.on('login', async (e, webContents, request, authInfo, callback) => {
       e.preventDefault();
@@ -99,7 +106,7 @@ export class Application {
     this.storage.run();
     this.dialogs.run();
 
-    this.windows.open();
+    // this.windows.open();
 
     this.sessions = new SessionsService();
 

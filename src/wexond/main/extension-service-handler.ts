@@ -1,7 +1,7 @@
 import { RpcMainEvent, RpcMainHandler } from '@wexond/rpc-electron';
 import { session, webContents } from 'electron';
 import {
-  extensionMainChannel,
+  getExtensionMainChannel,
   ExtensionMainService,
 } from '~/common/rpc/extensions';
 import { Application } from './Application';
@@ -9,7 +9,7 @@ import { Application } from './Application';
 export class ExtensionServiceHandler
   implements RpcMainHandler<ExtensionMainService> {
   constructor() {
-    extensionMainChannel.getReceiver().handler = this;
+    getExtensionMainChannel().getReceiver().handler = this;
   }
 
   inspectBackgroundPage(e: RpcMainEvent, id: string): void {
@@ -17,13 +17,13 @@ export class ExtensionServiceHandler
       .getAllWebContents()
       .find(
         (x) =>
-          x.session === Application.instance.sessions.view &&
+          x.session === Application.getInstance().sessions.view &&
           new URL(x.getURL()).hostname === id,
       )
       .openDevTools({ mode: 'detach' });
   }
 
   uninstall(e: RpcMainEvent, id: string): void {
-    Application.instance.sessions.uninstallExtension(id);
+    Application.getInstance().sessions.uninstallExtension(id);
   }
 }

@@ -13,7 +13,7 @@ export const showDownloadsDialog = (
 ) => {
   let height = 0;
 
-  const dialog = Application.instance.dialogs.show({
+  const dialog = Application.getInstance().dialogs.show({
     name: 'downloads-dialog',
     browserWindow,
     getBounds: () => {

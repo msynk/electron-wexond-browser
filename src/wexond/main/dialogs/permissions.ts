@@ -18,13 +18,13 @@ export const requestPermission = (
       return reject('Unknown permission');
     }
 
-    const appWindow = Application.instance.windows.fromBrowserWindow(
+    const appWindow = Application.getInstance().windows.fromBrowserWindow(
       browserWindow,
     );
 
     appWindow.viewManager.selected.requestedPermission = { name, url, details };
 
-    const dialog = Application.instance.dialogs.show({
+    const dialog = Application.getInstance().dialogs.show({
       name: 'permissions',
       browserWindow,
       getBounds: () => ({

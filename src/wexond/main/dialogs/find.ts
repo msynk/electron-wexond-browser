@@ -4,9 +4,9 @@ import { Application } from '../Application';
 
 export const showFindDialog = (browserWindow: BrowserWindow) => {
   const appWindow =
-    Application.instance.windows.fromBrowserWindow(browserWindow);
+    Application.getInstance().windows.fromBrowserWindow(browserWindow);
 
-  const dialog = Application.instance.dialogs.show({
+  const dialog = Application.getInstance().dialogs.show({
     name: 'find',
     browserWindow,
     devtools: false,

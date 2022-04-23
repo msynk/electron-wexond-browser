@@ -106,7 +106,7 @@ export class StorageService {
 
     ipcMain.on('bookmarks-remove', (e, ids: string[]) => {
       ids.forEach((x) => this.removeBookmark(x));
-      Application.instance.windows.list.forEach((x) => {
+      Application.getInstance().windows.list.forEach((x) => {
         x.viewManager.selected.updateBookmark();
       });
     });
@@ -114,7 +114,7 @@ export class StorageService {
     ipcMain.handle('bookmarks-add', async (e, item) => {
       const b = await this.addBookmark(item);
 
-      Application.instance.windows.list.forEach((x) => {
+      Application.getInstance().windows.list.forEach((x) => {
         x.viewManager.selected.updateBookmark();
       });
 
@@ -322,7 +322,7 @@ export class StorageService {
         }
       }
     }
-    Application.instance.windows.broadcast('reload-bookmarks');
+    Application.getInstance().windows.broadcast('reload-bookmarks');
   }
 
   public async updateBookmark(id: string, change: IBookmark) {
@@ -345,7 +345,7 @@ export class StorageService {
         });
     }
 
-    Application.instance.windows.broadcast('reload-bookmarks');
+    Application.getInstance().windows.broadcast('reload-bookmarks');
   }
 
   public async addBookmark(item: IBookmark): Promise<IBookmark> {
@@ -377,7 +377,7 @@ export class StorageService {
 
     this.bookmarks.push(doc);
 
-    Application.instance.windows.broadcast('reload-bookmarks');
+    Application.getInstance().windows.broadcast('reload-bookmarks');
 
     return doc;
   }

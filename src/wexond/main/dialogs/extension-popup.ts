@@ -14,7 +14,7 @@ export const showExtensionDialog = (
   let height = 512;
   let width = 512;
 
-  const dialog = Application.instance.dialogs.show({
+  const dialog = Application.getInstance().dialogs.show({
     name: 'extension-popup',
     browserWindow,
     getBounds: () => {

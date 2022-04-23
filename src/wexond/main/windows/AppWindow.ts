@@ -111,7 +111,7 @@ export class AppWindow {
     this.win.on('unmaximize', resize);
 
     this.win.on('close', (event: Electron.Event) => {
-      const { object: settings } = Application.instance.settings;
+      const { object: settings } = Application.getInstance().settings;
 
       if (settings.warnOnQuit && this.viewManager.views.size > 1) {
         const answer = dialog.showMessageBoxSync(null, {
@@ -137,20 +137,20 @@ export class AppWindow {
 
       this.viewManager.clear();
 
-      if (Application.instance.windows.list.length === 1) {
-        Application.instance.dialogs.destroy();
+      if (Application.getInstance().windows.list.length === 1) {
+        Application.getInstance().dialogs.destroy();
       }
 
       if (
         incognito &&
-        Application.instance.windows.list.filter((x) => x.incognito).length ===
+        Application.getInstance().windows.list.filter((x) => x.incognito).length ===
           1
       ) {
-        Application.instance.sessions.clearCache('incognito');
-        Application.instance.sessions.unloadIncognitoExtensions();
+        Application.getInstance().sessions.clearCache('incognito');
+        Application.getInstance().sessions.unloadIncognitoExtensions();
       }
 
-      Application.instance.windows.list = Application.instance.windows.list.filter(
+      Application.getInstance().windows.list = Application.getInstance().windows.list.filter(
         (x) => x.win.id !== this.win.id,
       );
     });
@@ -194,7 +194,7 @@ export class AppWindow {
     });
 
     this.win.on('focus', () => {
-      Application.instance.windows.current = this;
+      Application.getInstance().windows.current = this;
     });
   }
 

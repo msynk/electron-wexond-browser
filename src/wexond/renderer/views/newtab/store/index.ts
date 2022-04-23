@@ -2,7 +2,7 @@ import { observable, computed, makeObservable } from 'mobx';
 import { ISettings, ITheme, IVisitedItem } from '~/interfaces';
 import { getTheme } from '~/utils/themes';
 import { INewsItem } from '~/interfaces/news-item';
-import { networkMainChannel } from '~/common/rpc/network';
+import { getNetworkMainChannel } from '~/common/rpc/network';
 
 type NewsBehavior = 'on-scroll' | 'always-visible' | 'hidden';
 export type Preset = 'focused' | 'inspirational' | 'informational' | 'custom';
@@ -240,7 +240,7 @@ export class Store {
 
   public async loadNews() {
     try {
-      const { data } = await networkMainChannel.getInvoker().request(''); // ?lang=
+      const { data } = await getNetworkMainChannel().getInvoker().request(''); // ?lang=
       const json = JSON.parse(data);
 
       if (json.articles) {

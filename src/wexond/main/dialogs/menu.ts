@@ -8,7 +8,7 @@ export const showMenuDialog = (
   y: number,
 ) => {
   const menuWidth = 330;
-  const dialog = Application.instance.dialogs.show({
+  const dialog = Application.getInstance().dialogs.show({
     name: 'menu',
     browserWindow,
     getBounds: () => ({

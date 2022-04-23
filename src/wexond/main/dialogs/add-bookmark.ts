@@ -20,7 +20,7 @@ export const showAddBookmarkDialog = (
       title,
       bookmark,
       favicon,
-    } = Application.instance.windows.current.viewManager.selected;
+    } = Application.getInstance().windows.current.viewManager.selected;
     data = {
       url,
       title,
@@ -29,7 +29,7 @@ export const showAddBookmarkDialog = (
     };
   }
 
-  const dialog = Application.instance.dialogs.show({
+  const dialog = Application.getInstance().dialogs.show({
     name: 'add-bookmark',
     browserWindow,
     getBounds: () => ({

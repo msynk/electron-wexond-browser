@@ -1,7 +1,9 @@
-import path from 'path'
+// import path from 'path'
 import { app, Tray, Menu, BrowserWindow } from 'electron'
 import { WexondApp } from '~/WexondApp'
 import { Application } from '~/main/Application'
+
+const path = require('path')
 
 export class MainApplication {
 
@@ -57,6 +59,6 @@ export class MainApplication {
     }
 
     public openWexond() {
-        Application.instance.windows.open()
+        Application.getInstance().windows.open()
     }
 }

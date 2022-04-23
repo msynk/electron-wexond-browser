@@ -61,7 +61,7 @@ export class SessionsService {
 
     this.view.setPermissionRequestHandler(
       async (webContents, permission, callback, details) => {
-        const window = Application.instance.windows.findByBrowserView(
+        const window = Application.getInstance().windows.findByBrowserView(
           webContents.id,
         );
 
@@ -72,7 +72,7 @@ export class SessionsService {
         } else {
           try {
             const { hostname } = url.parse(details.requestingUrl);
-            const perm: any = await Application.instance.storage.findOne({
+            const perm: any = await Application.getInstance().storage.findOne({
               scope: 'permissions',
               query: {
                 url: hostname,
@@ -92,7 +92,7 @@ export class SessionsService {
 
               callback(response);
 
-              await Application.instance.storage.insert({
+              await Application.getInstance().storage.insert({
                 scope: 'permissions',
                 item: {
                   url: hostname,
@@ -135,7 +135,7 @@ export class SessionsService {
     });
 
     const downloadsDialog = () =>
-      Application.instance.dialogs.getDynamic('downloads-dialog')?.browserView
+      Application.getInstance().dialogs.getDynamic('downloads-dialog')?.browserView
         ?.webContents;
 
     const downloads: IDownloadItem[] = [];
@@ -161,7 +161,7 @@ export class SessionsService {
         (x) => x.id === id,
       );
 
-      const window = Application.instance.windows.findByBrowserView(
+      const window = Application.getInstance().windows.findByBrowserView(
         electronDownloads[electronDownloadsIndex]?.webContents.id,
       );
 
@@ -178,7 +178,7 @@ export class SessionsService {
       window?.send('download-removed', id);
 
       if (electronDownloads.length === 0 && downloads.length === 0) {
-        Application.instance.dialogs.getDynamic('downloads-dialog').hide();
+        Application.getInstance().dialogs.getDynamic('downloads-dialog').hide();
       }
     });
 
@@ -201,13 +201,13 @@ export class SessionsService {
     this.view.on('will-download', (event, item, webContents) => {
       const fileName = item.getFilename();
       const id = makeId(32);
-      const window = Application.instance.windows.findByBrowserView(
+      const window = Application.getInstance().windows.findByBrowserView(
         webContents.id,
       );
 
-      if (!Application.instance.settings.object.downloadsDialog) {
+      if (!Application.getInstance().settings.object.downloadsDialog) {
         const downloadsPath =
-          Application.instance.settings.object.downloadsPath;
+          Application.getInstance().settings.object.downloadsPath;
         let i = 1;
         let savePath = resolve(downloadsPath, fileName);
 
@@ -310,7 +310,7 @@ export class SessionsService {
 
     session.defaultSession.on('will-download', (event, item, webContents) => {
       const id = makeId(32);
-      const window = Application.instance.windows.list.find(
+      const window = Application.getInstance().windows.list.find(
         (x) => x && x.webContents.id === webContents.id,
       );
 
@@ -418,7 +418,7 @@ export class SessionsService {
 
         this.extensions.push(extension);
 
-        for (const window of Application.instance.windows.list) {
+        for (const window of Application.getInstance().windows.list) {
           window.send('load-browserAction', extension);
         }
       } catch (e) {
@@ -445,7 +445,7 @@ export class SessionsService {
   }
 
   public onCreateTab = async (details: chrome.tabs.CreateProperties) => {
-    const view = Application.instance.windows.list
+    const view = Application.getInstance().windows.list
       .find((x) => x.win.id === details.windowId)
       .viewManager.create(details, false, true);
 
@@ -457,7 +457,7 @@ export class SessionsService {
     action: BrowserActionChangeType,
     details: any,
   ) => {
-    Application.instance.windows.list.forEach((w) => {
+    Application.getInstance().windows.list.forEach((w) => {
       w.send('set-browserAction-info', extensionId, action, details);
     });
   };

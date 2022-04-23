@@ -63,7 +63,7 @@ export class SearchDialog extends PersistentDialog {
     browserWindow.once('resize', this.onResize);
 
     this.send('visible', true, {
-      id: Application.instance.windows.current.viewManager.selectedId,
+      id: Application.getInstance().windows.current.viewManager.selectedId,
       ...this.data,
     });
 

@@ -86,7 +86,7 @@ export class View {
 
     this.webContents.session.webRequest.onBeforeSendHeaders(
       (details, callback) => {
-        const { object: settings } = Application.instance.settings;
+        const { object: settings } = Application.getInstance().settings;
         if (settings.doNotTrack) details.requestHeaders['DNT'] = '1';
         callback({ requestHeaders: details.requestHeaders });
       },
@@ -102,7 +102,7 @@ export class View {
     });
 
     this.webContents.addListener('found-in-page', (e, result) => {
-      Application.instance.dialogs
+      Application.getInstance().dialogs
         .getDynamic('find')
         .browserView.webContents.send('found-in-page', result);
     });
@@ -221,7 +221,7 @@ export class View {
           let fav = this.favicon;
 
           if (fav.startsWith('http')) {
-            fav = await Application.instance.storage.addFavicon(fav);
+            fav = await Application.getInstance().storage.addFavicon(fav);
           }
 
           this.emitEvent('favicon-updated', fav);
@@ -330,7 +330,7 @@ export class View {
     )
       return;
 
-    const item = await Application.instance.storage.findOne<any>({
+    const item = await Application.getInstance().storage.findOne<any>({
       scope: 'formfill',
       query: {
         url: this.hostname,
@@ -356,7 +356,7 @@ export class View {
 
       await this.historyQueue.enqueue(async () => {
         this.lastHistoryId = (
-          await Application.instance.storage.insert<IHistoryItem>({
+          await Application.getInstance().storage.insert<IHistoryItem>({
             scope: 'history',
             item: historyItem,
           })
@@ -364,7 +364,7 @@ export class View {
 
         historyItem._id = this.lastHistoryId;
 
-        Application.instance.storage.history.push(historyItem);
+        Application.getInstance().storage.history.push(historyItem);
       });
     } else if (!inPage) {
       await this.historyQueue.enqueue(async () => {
@@ -390,7 +390,7 @@ export class View {
   };
 
   public updateBookmark() {
-    this.bookmark = Application.instance.storage.bookmarks.find(
+    this.bookmark = Application.getInstance().storage.bookmarks.find(
       (x) => x.url === this.url,
     );
 
@@ -406,7 +406,7 @@ export class View {
         const { title, url, favicon } = this;
 
         this.historyQueue.enqueue(async () => {
-          await Application.instance.storage.update({
+          await Application.getInstance().storage.update({
             scope: 'history',
             query: {
               _id: id,
@@ -419,7 +419,7 @@ export class View {
             multi: false,
           });
 
-          const item = Application.instance.storage.history.find(
+          const item = Application.getInstance().storage.history.find(
             (x) => x._id === id,
           );
 

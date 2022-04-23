@@ -33,7 +33,7 @@ export class PreviewDialog extends PersistentDialog {
       url,
       title,
       errorURL,
-    } = Application.instance.windows
+    } = Application.getInstance().windows
       .fromBrowserWindow(browserWindow)
       .viewManager.views.get(this.tab.id);
 

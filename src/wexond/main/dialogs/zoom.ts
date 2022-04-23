@@ -7,10 +7,10 @@ export const showZoomDialog = (
   x: number,
   y: number,
 ) => {
-  const tabId = Application.instance.windows.fromBrowserWindow(browserWindow)
+  const tabId = Application.getInstance().windows.fromBrowserWindow(browserWindow)
     .viewManager.selectedId;
 
-  const dialog = Application.instance.dialogs.show({
+  const dialog = Application.getInstance().dialogs.show({
     name: 'zoom',
     browserWindow,
     getBounds: () => ({

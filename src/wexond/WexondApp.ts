@@ -36,7 +36,7 @@ export class WexondApp {
     // app.setAsDefaultProtocolClient('http');
     // app.setAsDefaultProtocolClient('https');
 
-    const application = Application.instance;
+    const application = Application.getInstance();
     application.start();
 
     process.on('uncaughtException', (error) => {
