@@ -29,7 +29,7 @@ export class MainApplication {
         this.tray.setContextMenu(Menu.buildFromTemplate([
             { label: 'Open', click: () => this.openWindow() },
             { label: 'Open Wexond', click: () => this.openWexond() },
-            { label: 'Close', click: () => app.quit() },
+            { label: 'Close', click: () => app.exit(0) /*app.quit()*/ },
         ]))
 
         this.openWindow()

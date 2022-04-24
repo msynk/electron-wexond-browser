@@ -111,48 +111,51 @@ export class AppWindow {
     this.win.on('unmaximize', resize);
 
     this.win.on('close', (event: Electron.Event) => {
-      const { object: settings } = Application.getInstance().settings;
+      event.preventDefault();
+      this.win.hide();
+      
+      // const { object: settings } = Application.getInstance().settings;
 
-      if (settings.warnOnQuit && this.viewManager.views.size > 1) {
-        const answer = dialog.showMessageBoxSync(null, {
-          type: 'question',
-          title: `Quit ${app.name}?`,
-          message: `Quit ${app.name}?`,
-          detail: `You have ${this.viewManager.views.size} tabs open.`,
-          buttons: ['Close', 'Cancel'],
-        });
+      // if (settings.warnOnQuit && this.viewManager.views.size > 1) {
+      //   const answer = dialog.showMessageBoxSync(null, {
+      //     type: 'question',
+      //     title: `Quit ${app.name}?`,
+      //     message: `Quit ${app.name}?`,
+      //     detail: `You have ${this.viewManager.views.size} tabs open.`,
+      //     buttons: ['Close', 'Cancel'],
+      //   });
 
-        if (answer === 1) {
-          event.preventDefault();
-          return;
-        }
-      }
+      //   if (answer === 1) {
+      //     event.preventDefault();
+      //     return;
+      //   }
+      // }
 
       // Save current window state to a file.
       windowState.maximized = this.win.isMaximized();
       windowState.fullscreen = this.win.isFullScreen();
       writeFileSync(windowDataPath, JSON.stringify(windowState));
 
-      this.win.setBrowserView(null);
+      // this.win.setBrowserView(null);
 
-      this.viewManager.clear();
+      // this.viewManager.clear();
 
-      if (Application.getInstance().windows.list.length === 1) {
-        Application.getInstance().dialogs.destroy();
-      }
+      // if (Application.getInstance().windows.list.length === 1) {
+      //   Application.getInstance().dialogs.destroy();
+      // }
 
-      if (
-        incognito &&
-        Application.getInstance().windows.list.filter((x) => x.incognito).length ===
-          1
-      ) {
-        Application.getInstance().sessions.clearCache('incognito');
-        Application.getInstance().sessions.unloadIncognitoExtensions();
-      }
+      // if (
+      //   incognito &&
+      //   Application.getInstance().windows.list.filter((x) => x.incognito).length ===
+      //     1
+      // ) {
+      //   Application.getInstance().sessions.clearCache('incognito');
+      //   Application.getInstance().sessions.unloadIncognitoExtensions();
+      // }
 
-      Application.getInstance().windows.list = Application.getInstance().windows.list.filter(
-        (x) => x.win.id !== this.win.id,
-      );
+      // Application.getInstance().windows.list = Application.getInstance().windows.list.filter(
+      //   (x) => x.win.id !== this.win.id,
+      // );
     });
 
     // this.webContents.openDevTools({ mode: 'detach' });

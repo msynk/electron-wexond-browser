@@ -42,19 +42,23 @@ export class WindowsService {
     });
   }
 
+  private currentWindow: AppWindow = null;
   public open(incognito = false) {
-    const window = new AppWindow(incognito);
-    this.list.push(window);
+    if (!this.currentWindow) {
+      const window = new AppWindow(incognito);
+      this.list.push(window);
 
-    if (process.env.ENABLE_EXTENSIONS) {
-      extensions.windows.observe(window.win);
+      if (process.env.ENABLE_EXTENSIONS) {
+        extensions.windows.observe(window.win);
+      }
+
+      window.win.on('focus', () => {
+        this.lastFocused = window;
+      });
+      this.currentWindow = window;
     }
-
-    window.win.on('focus', () => {
-      this.lastFocused = window;
-    });
-
-    return window;
+    this.currentWindow.win.show();
+    return this.currentWindow;
   }
 
   public findByBrowserView(webContentsId: number) {
